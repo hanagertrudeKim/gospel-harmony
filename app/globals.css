@@ -1,26 +1,120 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ─── Design Tokens (Variant Design System) ─── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg:       #EFEAE3;
+  --color-surface:  #F5F1EB;
+  --color-border:   rgba(0,0,0,0.1);
+  --color-accent:   #FE320A;
+  --color-ink:      #1A1A1A;
+  --color-muted:    rgba(0,0,0,0.45);
+  --font-sans:      "Noto Sans KR", sans-serif;
+  --font-serif:     "Noto Serif KR", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ─── Base ─── */
+html, body { height: 100%; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #EFEAE3;
+  color: #1A1A1A;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 99px; }
+
+/* ─── Top accent bar ─── */
+.accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #FE320A, #FF6B35 50%, #FE320A);
+}
+
+/* ─── Gospel large title ─── */
+.gospel-title {
+  font-weight: 900;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #1A1A1A;
+}
+
+/* ─── Version pill ─── */
+.version-pill {
+  border-radius: 99px;
+  padding: 0.35rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1.5px solid rgba(0,0,0,0.2);
+  background: transparent;
+  color: #1A1A1A;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.version-pill:hover  { border-color: rgba(0,0,0,0.5); }
+.version-pill.active { background: #1A1A1A; color: #fff; border-color: #1A1A1A; }
+
+/* ─── Nav pill (PREV/NEXT) ─── */
+.nav-pill {
+  border-radius: 99px;
+  padding: 0.35rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border: 1.5px solid rgba(0,0,0,0.3);
+  background: transparent;
+  color: #1A1A1A;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.nav-pill:hover   { background: rgba(0,0,0,0.05); }
+.nav-pill:disabled{ opacity: 0.3; cursor: not-allowed; }
+
+/* ─── Sidebar item ─── */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.875rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.1s;
+  font-size: 0.875rem;
+  color: #1A1A1A;
+}
+.sidebar-item:hover  { background: rgba(0,0,0,0.05); }
+.sidebar-item.active { background: rgba(0,0,0,0.07); font-weight: 600; }
+.sidebar-item .num   { font-size: 0.75rem; color: rgba(0,0,0,0.3); min-width: 1.5rem; text-align: right; }
+
+/* ─── Mode tabs ─── */
+.mode-tab {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: rgba(0,0,0,0.45);
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.mode-tab:hover  { color: #1A1A1A; }
+.mode-tab.active { color: #1A1A1A; border-bottom-color: #FE320A; font-weight: 700; }
+
+/* ─── Verse row ─── */
+.verse-row { transition: background 0.1s; }
+.verse-row:hover { background: rgba(254,50,10,0.04); }
+.empty-verse { font-style: italic; color: rgba(0,0,0,0.28); text-align: center; padding: 2.5rem 1rem; font-size: 0.875rem; }
+
+/* ─── Skeleton loading ─── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, rgba(0,0,0,0.06) 25%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.06) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 4px;
 }
