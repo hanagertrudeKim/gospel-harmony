@@ -33,7 +33,11 @@ export default function GospelHarmony({ sectionId, translation }: Props) {
   }
   if (section.children && section.children.length > 0) {
     // Parent section - use first child
-    section = HARMONY_SECTIONS.find((s) => s.id === section.children![0])!;
+    const childId = section.children[0];
+    const childSection = HARMONY_SECTIONS.find((s) => s.id === childId);
+    if (childSection) {
+      section = childSection;
+    }
   }
 
   useEffect(() => {
