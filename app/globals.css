@@ -2,37 +2,37 @@
 
 /* ─── Theme & Font Scale Variables ─── */
 :root {
-  --font-scale: 1;
+  --verse-font-scale: 1;
 }
 
 :root[data-theme="light"] {
-  --bg-primary: #EFEAE3;
-  --bg-secondary: #F5F1EB;
-  --text-primary: #1A1A1A;
-  --text-secondary: rgba(0,0,0,0.45);
-  --text-muted: rgba(0,0,0,0.3);
-  --border-color: rgba(0,0,0,0.1);
-  --border-color-light: rgba(0,0,0,0.07);
-  --accent-color: #FE320A;
-  --gospel-matthew: #F0EBE4;
-  --gospel-mark: #EDE8E1;
-  --gospel-luke: #F2EDE6;
-  --gospel-john: #ECE7DF;
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F7F5;
+  --text-primary: #0F172A;
+  --text-secondary: #0F172A;
+  --text-muted: #475569;
+  --border-color: #E5E7EB;
+  --border-color-light: #F3F4F6;
+  --accent-color: #7C3AED;
+  --gospel-matthew: #FAF9F7;
+  --gospel-mark: #F8F7F5;
+  --gospel-luke: #F9F8F6;
+  --gospel-john: #F7F6F4;
 }
 
 :root[data-theme="dark"] {
-  --bg-primary: #1A1A1A;
-  --bg-secondary: #2D2D2D;
-  --text-primary: #E8E8E8;
-  --text-secondary: rgba(255,255,255,0.55);
-  --text-muted: rgba(255,255,255,0.4);
-  --border-color: rgba(255,255,255,0.15);
-  --border-color-light: rgba(255,255,255,0.08);
-  --accent-color: #FF7B54;
-  --gospel-matthew: #2A2620;
-  --gospel-mark: #292420;
-  --gospel-luke: #2C2720;
-  --gospel-john: #28231B;
+  --bg-primary: #000000;
+  --bg-secondary: #111111;
+  --text-primary: #FFFFFF;
+  --text-secondary: #FFFFFF;
+  --text-muted: #D1D5DB;
+  --border-color: #262626;
+  --border-color-light: #1F2937;
+  --accent-color: #7C3AED;
+  --gospel-matthew: #0A0A0A;
+  --gospel-mark: #0F0F0F;
+  --gospel-luke: #0A0A0A;
+  --gospel-john: #0E0E0E;
 }
 
 /* ─── Design Tokens (Variant Design System) ─── */
@@ -50,7 +50,7 @@
 /* ─── Base ─── */
 html {
   height: 100%;
-  font-size: calc(16px * var(--font-scale));
+  font-size: 16px;
 }
 
 body {
@@ -62,9 +62,10 @@ body {
 }
 
 /* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 99px; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
 
 /* ─── Top accent bar ─── */
 .accent-bar {
@@ -74,66 +75,68 @@ body {
 
 /* ─── Gospel large title ─── */
 .gospel-title {
-  font-weight: 900;
-  font-size: clamp(1rem, 2.5vw, 1.8rem);
-  letter-spacing: -0.025em;
+  font-weight: 800;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--text-primary);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  text-shadow: none;
 }
 
 /* ─── Version pill ─── */
 .version-pill {
   border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
   background: transparent;
   color: var(--text-primary);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.version-pill:hover {
-  border-color: var(--text-primary);
-  opacity: 0.8;
+.version-pill:hover:not(.active) {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
 }
 .version-pill.active {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border-color: var(--text-primary);
-  box-shadow: none;
+  background: var(--accent-color);
+  color: #FFFFFF;
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
 /* ─── Nav pill (PREV/NEXT) ─── */
 .nav-pill {
-  border-radius: 8px;
-  padding: 0.5rem 1.2rem;
-  font-size: 0.8rem;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  border: 1px solid var(--text-primary);
+  border: 1.5px solid var(--accent-color);
   background: transparent;
-  color: var(--text-primary);
+  color: var(--accent-color);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
 }
 .nav-pill:hover:not(:disabled) {
-  background: var(--text-primary);
-  color: var(--bg-primary);
+  background: var(--accent-color);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
 }
 .nav-pill:disabled {
-  opacity: 0.3;
+  opacity: 0.4;
   cursor: not-allowed;
   border-color: var(--border-color);
+  color: var(--text-muted);
 }
 
 /* ─── Sidebar item ─── */
@@ -145,7 +148,7 @@ body {
   border-radius: 0;
   cursor: pointer;
   transition: color 0.15s ease;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   border: none;
   background: none;
@@ -170,13 +173,13 @@ body {
 
 /* ─── Mode tabs ─── */
 .mode-tab {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   font-size: 0.8rem;
   font-weight: 500;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   cursor: pointer;
   color: var(--text-secondary);
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -185,22 +188,24 @@ body {
   color: var(--text-primary);
 }
 .mode-tab.active {
-  color: var(--text-primary);
+  color: var(--accent-color);
   border-bottom-color: var(--accent-color);
   font-weight: 600;
 }
 
 /* ─── Verse row ─── */
 .verse-row {
-  transition: background 0.15s ease;
-  word-spacing: -0.05em;
+  transition: background 0.2s ease;
+  word-spacing: -0.02em;
 }
 .verse-row:hover {
-  background: rgba(0,0,0,0.02);
+  background: var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color) 8%, transparent);
+  border-radius: 4px;
 }
 .empty-verse {
   font-style: italic;
-  color: rgba(0,0,0,0.25);
+  color: var(--text-muted);
   text-align: center;
   padding: 3rem 1rem;
   font-size: 0.8rem;
@@ -208,12 +213,12 @@ body {
 
 /* ─── Skeleton loading ─── */
 @keyframes shimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  0%   { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.08) 20%, rgba(0,0,0,0.05) 40%);
-  background-size: 800px 100%;
+  background: linear-gradient(90deg, var(--border-color) 0%, color-mix(in srgb, var(--accent-color) 10%, var(--border-color)) 20%, var(--border-color) 40%);
+  background-size: 1000px 100%;
   animation: shimmer 2s infinite ease-in-out;
-  border-radius: 3px;
+  border-radius: 6px;
 }

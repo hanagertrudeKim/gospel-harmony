@@ -34,7 +34,7 @@ export default function VerseColumn({ title, subtitle, verses, loading }: Props)
                 <span className="font-black text-[0.65rem] sm:text-xs w-5 sm:w-6 shrink-0 text-right pt-0.5" style={{ color: 'var(--text-primary)' }}>
                   {v.verse}
                 </span>
-                <p className="text-[0.8rem] sm:text-[0.875rem] leading-relaxed font-light flex-1" style={{ color: 'var(--text-secondary)' }}>
+                <p className="flex-1" style={{ color: 'var(--text-secondary)', fontSize: 'calc(0.95rem * var(--verse-font-scale))', fontFamily: 'Lora, serif', lineHeight: '1.7', fontWeight: '400' }}>
                   {v.text}
                 </p>
               </div>

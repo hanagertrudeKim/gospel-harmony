@@ -50,7 +50,7 @@ export default function Home() {
   // Apply theme and font scale to document
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", isDarkMode ? "dark" : "light");
-    document.documentElement.style.setProperty("--font-scale", fontSizeScale.toString());
+    document.documentElement.style.setProperty("--verse-font-scale", fontSizeScale.toString());
   }, [isDarkMode, fontSizeScale]);
 
   const prevSectionId = getPrevSectionId(sectionId);

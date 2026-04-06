@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { HARMONY_SECTIONS, getParentSections, getChildSections } from "@/lib/harmonyData";
 
 interface Props {
@@ -10,20 +9,6 @@ interface Props {
 }
 
 export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props) {
-  const [expandedParents, setExpandedParents] = useState<Set<number>>(
-    new Set([10, Math.floor(selectedId / 10) * 10])
-  );
-
-  const handleToggleExpand = (parentId: number) => {
-    const newExpanded = new Set(expandedParents);
-    if (newExpanded.has(parentId)) {
-      newExpanded.delete(parentId);
-    } else {
-      newExpanded.add(parentId);
-    }
-    setExpandedParents(newExpanded);
-  };
-
   const handleSelect = (id: number) => {
     onSelect(id);
     onClose();
@@ -55,7 +40,7 @@ export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props
         {/* Logo */}
         <div className="px-3 sm:px-4 pt-4 sm:pt-5 pb-5 sm:pb-6 border-b" style={{ borderColor: 'var(--border-color)' }}>
           <div className="flex items-start gap-2">
-            <span className="font-black text-lg sm:text-xl leading-tight tracking-tight uppercase" style={{ color: 'var(--text-primary)' }}>
+            <span className="font-black text-base sm:text-lg leading-tight tracking-tight uppercase" style={{ color: 'var(--text-primary)' }}>
               Gospel<br />Harmony
             </span>
             <span
@@ -68,7 +53,6 @@ export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props
         {/* Nav list with hierarchy */}
         <nav className="flex-1 overflow-y-auto px-2 py-3">
           {parentSections.map((parentSection) => {
-            const isExpanded = expandedParents.has(parentSection.id);
             const childSections = getChildSections(parentSection.id);
             const isParentSelected = selectedId === parentSection.id;
 
@@ -79,31 +63,21 @@ export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props
                   className={`sidebar-item parent w-full text-left flex items-center justify-between ${
                     isParentSelected ? "active" : ""
                   }`}
-                  onClick={() => {
-                    if (childSections.length === 0) {
-                      handleSelect(parentSection.id);
-                    } else {
-                      handleToggleExpand(parentSection.id);
-                    }
-                  }}
+                  onClick={() => handleSelect(parentSection.id)}
                 >
                   <span className="flex-1">{parentSection.title}</span>
                   <span className="num text-xs">{String(Math.floor(parentSection.id / 10)).padStart(2, "0")}</span>
-                  {childSections.length > 0 && (
-                    <span
-                      className={`transition-transform duration-200 ml-1 ${
-                        isExpanded ? "rotate-90" : ""
-                      }`}
-                      style={{ color: 'var(--text-muted)' }}
-                    >
-                      ›
-                    </span>
-                  )}
+                  <span
+                    className="ml-1"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    ›
+                  </span>
                 </button>
 
-                {/* Child sections */}
-                {isExpanded && childSections.length > 0 && (
-                  <div className="ml-2 border-l pl-2 my-1" style={{ borderColor: 'var(--border-color)' }}>
+                {/* Child sections - always visible */}
+                {childSections.length > 0 && (
+                  <div className="my-1">
                     {childSections.map((childSection) => {
                       const isChildSelected = selectedId === childSection.id;
                       return (
@@ -116,7 +90,7 @@ export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props
                         >
                           <span className="flex-1" style={{ color: 'inherit' }}>{childSection.title}</span>
                           <span className="num text-xs">
-                            {String(childSection.id).padStart(2, "0")}
+                            {String(childSection.id).padStart(3, "0")}
                           </span>
                         </button>
                       );
@@ -146,6 +120,7 @@ export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props
 
         .sidebar-item:hover {
           color: var(--text-primary);
+          background-color: rgba(124, 58, 237, 0.05);
         }
 
         .sidebar-item.active {
@@ -154,16 +129,34 @@ export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props
         }
 
         .sidebar-item.parent {
-          font-weight: 500;
-          padding: 0.875rem 0.75rem;
+          font-weight: 600;
+          font-size: 0.95rem;
+          padding: 1rem 0.75rem;
+          color: var(--text-primary);
+        }
+
+        .sidebar-item.parent:hover {
+          color: var(--text-primary);
+        }
+
+        .sidebar-item.parent.active {
+          color: var(--accent-color);
+          font-weight: 600;
         }
 
         .sidebar-item.child {
-          padding: 0.625rem 0.75rem;
+          padding: 0.625rem 1.25rem;
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+
+        .sidebar-item.child:hover {
+          color: var(--text-primary);
         }
 
         .sidebar-item.child.active {
           color: var(--accent-color);
+          font-weight: 500;
         }
 
         .num {
@@ -173,7 +166,7 @@ export default function Sidebar({ selectedId, onSelect, isOpen, onClose }: Props
         }
 
         .sidebar-item.active .num {
-          color: var(--text-secondary);
+          color: var(--accent-color);
         }
       `}</style>
     </>
