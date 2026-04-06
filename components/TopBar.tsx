@@ -19,6 +19,9 @@ interface Props {
   canPrev?: boolean;
   canNext?: boolean;
   onMenuOpen?: () => void;
+  // Search functionality
+  onSearchToggle?: () => void;
+  showSearchButton?: boolean;
 }
 
 const MODES: { id: Mode; label: string }[] = [
@@ -34,6 +37,8 @@ export default function TopBar({
   fontSize, onFontSizeChange,
   onPrev, onNext, canPrev, canNext,
   onMenuOpen,
+  onSearchToggle,
+  showSearchButton,
 }: Props) {
   return (
     <header className="border-b sticky top-0 z-10" style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-color)' }}>
@@ -53,6 +58,23 @@ export default function TopBar({
             <rect y="12" width="18" height="2" rx="1" fill="currentColor"/>
           </svg>
         </button>
+
+        {/* Search button (harmony mode only) */}
+        {showSearchButton && (
+          <button
+            className="mr-2 sm:mr-3 p-1.5 rounded-md shrink-0 min-h-9 min-w-9 flex items-center justify-center"
+            style={{ color: 'var(--text-primary)' }}
+            onClick={onSearchToggle}
+            aria-label="검색"
+            title="검색"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+          </button>
+        )}
+
         {MODES.map((m) => (
           <button
             key={m.id}

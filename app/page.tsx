@@ -4,6 +4,8 @@ import type { Translation } from "@/types";
 import { HARMONY_SECTIONS, getNextSectionId, getPrevSectionId } from "@/lib/harmonyData";
 import Sidebar from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
+import SearchBar from "@/components/SearchBar";
+import SearchResults from "@/components/SearchResults";
 import GospelHarmony from "@/components/GospelHarmony";
 import ChapterVerseCompare from "@/components/ChapterVerseCompare";
 import VersionCompare from "@/components/VersionCompare";
@@ -18,6 +20,8 @@ export default function Home() {
   const [isDarkMode, setIsDarkMode]   = useState(false);
   const [fontSizeScale, setFontSizeScale] = useState(1);
   const [mounted, setMounted] = useState(false);
+  const [searchOpen, setSearchOpen]     = useState(false);
+  const [searchTerm, setSearchTerm]     = useState("");
 
   // Load preferences from localStorage on mount
   useEffect(() => {
@@ -99,7 +103,28 @@ export default function Home() {
           canPrev={canPrev}
           canNext={canNext}
           onMenuOpen={() => setSidebarOpen(true)}
+          onSearchToggle={() => setSearchOpen(!searchOpen)}
+          showSearchButton={mode === "harmony"}
         />
+
+        {/* Search Bar - only in harmony mode */}
+        {mode === "harmony" && (
+          <>
+            <SearchBar
+              isOpen={searchOpen}
+              onClose={() => setSearchOpen(false)}
+              onSearch={setSearchTerm}
+            />
+            <SearchResults
+              searchTerm={searchTerm}
+              onResultClick={(id) => {
+                setSectionId(id);
+                setSearchOpen(false);
+                setSearchTerm("");
+              }}
+            />
+          </>
+        )}
 
         {/* Content area */}
         <main className="flex-1 overflow-hidden">
