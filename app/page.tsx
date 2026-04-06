@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Translation } from "@/types";
-import { HARMONY_SECTIONS } from "@/lib/harmonyData";
+import { HARMONY_SECTIONS, getNextSectionId, getPrevSectionId } from "@/lib/harmonyData";
 import Sidebar from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
 import GospelHarmony from "@/components/GospelHarmony";
@@ -12,13 +12,51 @@ type Mode = "harmony" | "chapter" | "version";
 
 export default function Home() {
   const [mode, setMode]               = useState<Mode>("harmony");
-  const [translation, setTranslation] = useState<Translation>("korean");
-  const [sectionId, setSectionId]     = useState(1);
+  const [translation, setTranslation] = useState<Translation>("hev");
+  const [sectionId, setSectionId]     = useState(101);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode]   = useState(false);
+  const [fontSizeScale, setFontSizeScale] = useState(1);
+  const [mounted, setMounted] = useState(false);
 
-  const maxId  = HARMONY_SECTIONS.length;
-  const canPrev = sectionId > 1;
-  const canNext = sectionId < maxId;
+  // Load preferences from localStorage on mount
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem("gospel-harmony-dark-mode");
+    const savedFontSize = localStorage.getItem("gospel-harmony-font-size");
+
+    if (savedDarkMode !== null) {
+      setIsDarkMode(JSON.parse(savedDarkMode));
+    }
+    if (savedFontSize !== null) {
+      setFontSizeScale(parseFloat(savedFontSize));
+    }
+    setMounted(true);
+  }, []);
+
+  // Save dark mode preference
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem("gospel-harmony-dark-mode", JSON.stringify(isDarkMode));
+    }
+  }, [isDarkMode, mounted]);
+
+  // Save font size preference
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem("gospel-harmony-font-size", fontSizeScale.toString());
+    }
+  }, [fontSizeScale, mounted]);
+
+  // Apply theme and font scale to document
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+    document.documentElement.style.setProperty("--font-scale", fontSizeScale.toString());
+  }, [isDarkMode, fontSizeScale]);
+
+  const prevSectionId = getPrevSectionId(sectionId);
+  const nextSectionId = getNextSectionId(sectionId);
+  const canPrev = prevSectionId !== null;
+  const canNext = nextSectionId !== null;
 
   const handleModeChange = (m: Mode) => {
     setMode(m);
@@ -26,7 +64,9 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-full overflow-hidden bg-[#EFEAE3]">
+    <div
+      className="flex h-full overflow-hidden"
+    >
       {/* Sidebar — only shown in harmony mode */}
       {mode === "harmony" && (
         <Sidebar
@@ -38,14 +78,24 @@ export default function Home() {
       )}
 
       {/* Main column */}
-      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
+      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden max-w-[1920px] mx-auto w-full">
         <TopBar
           mode={mode}
           onModeChange={handleModeChange}
           translation={translation}
           onTranslationChange={setTranslation}
-          onPrev={() => setSectionId((id) => Math.max(1, id - 1))}
-          onNext={() => setSectionId((id) => Math.min(maxId, id + 1))}
+          isDarkMode={isDarkMode}
+          onDarkModeChange={setIsDarkMode}
+          fontSize={fontSizeScale}
+          onFontSizeChange={setFontSizeScale}
+          onPrev={() => {
+            const prev = getPrevSectionId(sectionId);
+            if (prev !== null) setSectionId(prev);
+          }}
+          onNext={() => {
+            const next = getNextSectionId(sectionId);
+            if (next !== null) setSectionId(next);
+          }}
           canPrev={canPrev}
           canNext={canNext}
           onMenuOpen={() => setSidebarOpen(true)}

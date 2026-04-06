@@ -35,14 +35,15 @@ export default function ChapterVerseCompare({ translation }: Props) {
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* Controls */}
-      <div className="px-6 py-4 border-b border-black/10 shrink-0">
-        <h1 className="text-base font-bold mb-3">장절 대조</h1>
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="px-3 sm:px-5 py-2 sm:py-3 border-b shrink-0" style={{ borderColor: 'var(--border-color)' }}>
+        <h1 className="text-sm sm:text-base font-bold mb-1.5 sm:mb-2" style={{ color: 'var(--text-primary)' }}>장절 대조</h1>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           {/* Book selector */}
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-black/40 font-medium">성경</label>
+          <div className="flex flex-col gap-0.5">
+            <label className="text-[0.7rem] sm:text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>성경</label>
             <select
-              className="border border-black/15 rounded-lg px-3 py-2 text-sm bg-[#EFEAE3] focus:outline-none focus:border-black/40"
+              className="border rounded px-2 py-1 text-xs sm:text-sm focus:outline-none"
+              style={{ borderColor: 'var(--border-color)', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}
               value={bookId}
               onChange={(e) => {
                 const b = ALL_BOOKS.find((bk) => bk.id === Number(e.target.value))!;
@@ -64,21 +65,21 @@ export default function ChapterVerseCompare({ translation }: Props) {
           </div>
 
           {/* Chapter selector */}
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-black/40 font-medium">장</label>
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-0.5">
+            <label className="text-[0.7rem] sm:text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>장</label>
+            <div className="flex items-center gap-1">
               <button
-                className="nav-pill"
+                className="nav-pill px-2 py-0.5"
                 onClick={() => setChapter((c) => safeChapter(c - 1))}
                 disabled={chapter <= 1}
               >
                 ‹
               </button>
-              <span className="text-sm font-semibold min-w-[3rem] text-center">
-                {chapter} / {maxChapters}
+              <span className="text-xs sm:text-sm font-semibold min-w-[2.5rem] text-center" style={{ color: 'var(--text-primary)' }}>
+                {chapter}/{maxChapters}
               </span>
               <button
-                className="nav-pill"
+                className="nav-pill px-2 py-0.5"
                 onClick={() => setChapter((c) => safeChapter(c + 1))}
                 disabled={chapter >= maxChapters}
               >
@@ -88,15 +89,16 @@ export default function ChapterVerseCompare({ translation }: Props) {
           </div>
 
           {/* Quick chapter input */}
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-black/40 font-medium">직접 입력</label>
+          <div className="flex flex-col gap-0.5">
+            <label className="text-[0.7rem] sm:text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>입력</label>
             <input
               type="number"
               min={1}
               max={maxChapters}
               value={chapter}
               onChange={(e) => setChapter(safeChapter(Number(e.target.value)))}
-              className="border border-black/15 rounded-lg px-3 py-2 text-sm w-20 bg-[#EFEAE3] focus:outline-none focus:border-black/40"
+              className="border rounded px-2 py-1 text-xs w-16 focus:outline-none"
+              style={{ borderColor: 'var(--border-color)', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}
             />
           </div>
         </div>

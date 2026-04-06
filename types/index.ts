@@ -1,16 +1,20 @@
-export type Translation = "korean" | "kjv" | "niv2011" | "nrsv";
+// CTM Bible API codes: hev, hrv, hnv, heb, kjv, niv
+export type Translation = "hev" | "hrv" | "hnv" | "heb" | "kjv" | "niv";
 
 export interface TranslationMeta {
   id: Translation;
   label: string;        // UI label
   lang: "ko" | "en";
+  ctmCode: string;      // CTM Bible API code
 }
 
 export const TRANSLATIONS: TranslationMeta[] = [
-  { id: "korean",  label: "개역개정",  lang: "ko" },
-  { id: "nrsv",    label: "새번역",    lang: "ko" },
-  { id: "niv2011", label: "NIV",       lang: "en" },
-  { id: "kjv",     label: "KJV",       lang: "en" },
+  { id: "hev",  label: "한영혼용",  lang: "ko", ctmCode: "hev" },
+  { id: "hrv",  label: "개역",      lang: "ko", ctmCode: "hrv" },
+  { id: "hnv",  label: "신번역",    lang: "ko", ctmCode: "hnv" },
+  { id: "heb",  label: "히브리어",  lang: "en", ctmCode: "heb" },
+  { id: "kjv",  label: "KJV",       lang: "en", ctmCode: "kjv" },
+  { id: "niv",  label: "NIV",       lang: "en", ctmCode: "niv" },
 ];
 
 // Bible book numbers (getbible.net convention)
@@ -40,6 +44,8 @@ export interface HarmonySection {
   id: number;
   title: string;
   refs: Partial<Record<Gospel, VerseRef>>;
+  parentId?: number;  // For subsections
+  children?: number[]; // For parent sections
 }
 
 export interface Verse {
